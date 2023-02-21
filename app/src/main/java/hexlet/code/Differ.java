@@ -36,13 +36,13 @@ public class Differ {
         StringBuilder sb = new StringBuilder();
         sb.append("{\n");
         for (String key : allKeysSet) {
-            String value1 = map1.get(key);
-            String value2 = map2.get(key);
+            String value1 = map1.getOrDefault(key, "no such key");
+            String value2 = map2.getOrDefault(key, "no such key");
             if (Objects.equals(value1, value2)) {
                 sb.append("    " + key + ": " + value1 + "\n");
-            } else if (value2 == null) {
+            } else if ("no such key".equals(value2)) {
                 sb.append("  - " + key + ": " + value1 + "\n");
-            } else if (value1 == null) {
+            } else if ("no such key".equals(value1)) {
                 sb.append("  + " + key + ": " + value2 + "\n");
             } else {
                 sb.append("  - " + key + ": " + value1 + "\n");
