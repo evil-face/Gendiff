@@ -20,13 +20,13 @@ public class DifferTest {
                      + timeout: 20
                      + verbose: true
                    }""";
-        assertThat(Differ.generate("file1.json", "file2.json")).isEqualTo(expected);
+        assertThat(Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json")).isEqualTo(expected);
     }
 
     @Test
     void testNoSuchFilesException() {
-        var thrown1 = catchThrowable(() -> Differ.generate("nofile.json", "file2.json"));
-        var thrown2 = catchThrowable(() -> Differ.generate("file1.json", "nofile.json"));
+        var thrown1 = catchThrowable(() -> Differ.generate("nofile.json", "src/test/resources/file2.json"));
+        var thrown2 = catchThrowable(() -> Differ.generate("src/test/resources/file1.json", "nofile.json"));
         var thrown3 = catchThrowable(() -> Differ.generate("nofile.json", "nofile.json"));
         assertThat(thrown1).isInstanceOf(IOException.class);
         assertThat(thrown2).isInstanceOf(IOException.class);
@@ -36,12 +36,12 @@ public class DifferTest {
     @Test
     void testEmptyFile() throws IOException {
         String expected = "{\n}";
-        assertThat(Differ.generate("emptyFile.json", "emptyFile.json")).isEqualTo(expected);
+        assertThat(Differ.generate("src/test/resources/emptyFile.json", "src/test/resources/emptyFile.json")).isEqualTo(expected);
     }
 
     @Test
     void testCorruptedFile() {
-        var thrown = catchThrowable(() -> Differ.generate("file1.json", "corruptedFile.json"));
+        var thrown = catchThrowable(() -> Differ.generate("src/test/resources/file1.json", "src/test/resources/corruptedFile.json"));
         assertThat(thrown).isInstanceOf(IOException.class);
     }
 
@@ -56,6 +56,6 @@ public class DifferTest {
                   - verbose: true
                   + verbose: false
                 }""";
-        assertThat(Differ.generate("file2.json", "nullFile.json")).isEqualTo(expected);
+        assertThat(Differ.generate("src/test/resources/file2.json", "src/test/resources/nullFile.json")).isEqualTo(expected);
     }
 }
