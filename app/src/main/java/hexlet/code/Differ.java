@@ -9,7 +9,10 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Differ {
 
@@ -26,8 +29,8 @@ public class Differ {
             throw new NoSuchFileException("File " + path2 + " does not exist");
         }
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, String> map1 = mapper.readValue(new File(path1.toString()), new TypeReference<>() {});
-        Map<String, String> map2 = mapper.readValue(new File(path2.toString()), new TypeReference<>() {});
+        Map<String, String> map1 = mapper.readValue(new File(path1.toString()), new TypeReference<>() { });
+        Map<String, String> map2 = mapper.readValue(new File(path2.toString()), new TypeReference<>() { });
 
         Set<String> allKeysSet = new TreeSet<>();
         allKeysSet.addAll(map1.keySet());
