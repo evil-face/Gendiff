@@ -2,6 +2,6 @@
 run-dist:
 	./build/install/app/bin/app
 
-.PHONY: build./
+.PHONY: build
 build:
 	gradle build
