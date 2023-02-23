@@ -20,7 +20,8 @@ public class DifferTest {
                      + timeout: 20
                      + verbose: true
                    }""";
-        assertThat(Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json")).isEqualTo(expected);
+        assertThat(Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json"))
+                .isEqualTo(expected);
     }
 
     @Test
@@ -36,12 +37,14 @@ public class DifferTest {
     @Test
     void testEmptyFile() throws IOException {
         String expected = "{\n}";
-        assertThat(Differ.generate("src/test/resources/emptyFile.json", "src/test/resources/emptyFile.json")).isEqualTo(expected);
+        assertThat(Differ.generate("src/test/resources/emptyFile.json", "src/test/resources/emptyFile.json"))
+                .isEqualTo(expected);
     }
 
     @Test
     void testCorruptedFile() {
-        var thrown = catchThrowable(() -> Differ.generate("src/test/resources/file1.json", "src/test/resources/corruptedFile.json"));
+        var thrown = catchThrowable(() -> Differ.generate("src/test/resources/file1.json",
+                "src/test/resources/corruptedFile.json"));
         assertThat(thrown).isInstanceOf(IOException.class);
     }
 
@@ -56,6 +59,7 @@ public class DifferTest {
                   - verbose: true
                   + verbose: false
                 }""";
-        assertThat(Differ.generate("src/test/resources/file2.json", "src/test/resources/nullFile.json")).isEqualTo(expected);
+        assertThat(Differ.generate("src/test/resources/file2.json", "src/test/resources/nullFile.json"))
+                .isEqualTo(expected);
     }
 }
