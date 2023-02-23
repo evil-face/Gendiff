@@ -11,5 +11,6 @@ jobs:
           java-version: 17
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2.4.0
+      - run: cd app
       - name: Execute Gradle build
         run: make build
