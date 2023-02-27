@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Parser {
-    public static Map<String, String> parse(String filepath) throws IOException {
+    public static Map<String, Object> parse(String filepath) throws IOException {
         Path path = Paths.get(filepath).normalize().toAbsolutePath();
         if (!Files.exists(path)) {
             throw new NoSuchFileException("File " + path + " does not exist");
@@ -25,7 +25,7 @@ public class Parser {
             throw new IOException("Not supported extension");
         }
 
-        Map<String, String> parsedMap = createMapper(ext)
+        Map<String, Object> parsedMap = createMapper(ext)
                 .readValue(new File(path.toString()), new TypeReference<>() { });
         if (parsedMap == null) {
             return new HashMap<>();
@@ -35,9 +35,9 @@ public class Parser {
 
     private static ObjectMapper createMapper(String ext) {
         ObjectMapper mapper = null;
-        if (ext.equals("json")) {
+        if (ext.equalsIgnoreCase("json")) {
             mapper = new ObjectMapper();
-        } else if (ext.equals("yml")) {
+        } else if (ext.equalsIgnoreCase("yml") || ext.equalsIgnoreCase("yaml")) {
             mapper = new YAMLMapper();
         }
         return mapper;
