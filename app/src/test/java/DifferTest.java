@@ -5,21 +5,17 @@ import hexlet.code.Differ;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class DifferTest {
 
     @Test
     void testCorrectCase() throws IOException {
-        String expected =
-                """
-                   {
-                     - follow: false
-                       host: hexlet.io
-                     - proxy: 123.234.53.22
-                     - timeout: 50
-                     + timeout: 20
-                     + verbose: true
-                   }""";
+        Path path = Paths.get("src/test/resources/expectedJSON1");
+        String expected = Files.readString(path);
+
         assertThat(Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json"))
                 .isEqualTo(expected);
     }
@@ -50,15 +46,9 @@ public class DifferTest {
 
     @Test
     void testNullFile() throws IOException {
-        String expected = """
-                {
-                  - host: hexlet.io
-                  + host: null
-                  - timeout: 20
-                  + timeout: 30
-                  - verbose: true
-                  + verbose: false
-                }""";
+        Path path = Paths.get("src/test/resources/expectedJSON2");
+        String expected = Files.readString(path);
+
         assertThat(Differ.generate("src/test/resources/file2.json", "src/test/resources/nullFile.json"))
                 .isEqualTo(expected);
     }
