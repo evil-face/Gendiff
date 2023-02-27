@@ -1,0 +1,8 @@
+{
+  - host: hexlet.io
+  + host: null
+  - timeout: 20
+  + timeout: 30
+  - verbose: true
+  + verbose: false
+}
