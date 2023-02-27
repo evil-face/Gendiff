@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Parser {
-    public static Map<String, String> parse (String filepath) throws IOException {
+    public static Map<String, String> parse(String filepath) throws IOException {
         Path path = Paths.get(filepath).normalize().toAbsolutePath();
         if (!Files.exists(path)) {
             throw new NoSuchFileException("File " + path + " does not exist");
