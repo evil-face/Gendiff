@@ -12,11 +12,20 @@ import java.nio.file.Paths;
 public class DifferTest {
 
     @Test
-    void testCorrectCase() throws IOException {
+    void testCorrectCaseJSON() throws IOException {
         Path path = Paths.get("src/test/resources/expectedJSON1");
         String expected = Files.readString(path);
 
         assertThat(Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json"))
+                .isEqualTo(expected);
+    }
+
+    @Test
+    void testCorrectCaseYAML() throws IOException {
+        Path path = Paths.get("src/test/resources/expectedJSON1");
+        String expected = Files.readString(path);
+
+        assertThat(Differ.generate("src/test/resources/file1.yml", "src/test/resources/file2.yml"))
                 .isEqualTo(expected);
     }
 
@@ -31,25 +40,30 @@ public class DifferTest {
     }
 
     @Test
-    void testEmptyFile() throws IOException {
+    void testEmptyFileJSON() throws IOException {
         String expected = "{\n}";
         assertThat(Differ.generate("src/test/resources/emptyFile.json", "src/test/resources/emptyFile.json"))
                 .isEqualTo(expected);
     }
 
     @Test
-    void testCorruptedFile() {
+    void testEmptyFileYAML() throws IOException {
+        String expected = "{\n}";
+        assertThat(Differ.generate("src/test/resources/emptyFile.yml", "src/test/resources/emptyFile.yml"))
+                .isEqualTo(expected);
+    }
+
+    @Test
+    void testCorruptedFileJSON() {
         var thrown = catchThrowable(() -> Differ.generate("src/test/resources/file1.json",
                 "src/test/resources/corruptedFile.json"));
         assertThat(thrown).isInstanceOf(IOException.class);
     }
 
     @Test
-    void testNullFile() throws IOException {
-        Path path = Paths.get("src/test/resources/expectedJSON2");
-        String expected = Files.readString(path);
-
-        assertThat(Differ.generate("src/test/resources/file2.json", "src/test/resources/nullFile.json"))
-                .isEqualTo(expected);
+    void testCorruptedFileYAML() {
+        var thrown = catchThrowable(() -> Differ.generate("src/test/resources/file1.yml",
+                "src/test/resources/corruptedFile.yml"));
+        assertThat(thrown).isInstanceOf(IOException.class);
     }
 }
