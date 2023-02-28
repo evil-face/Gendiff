@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.formatters.Json;
 import hexlet.code.formatters.Plain;
 import hexlet.code.formatters.Stylish;
 
@@ -11,7 +12,8 @@ public class Formatter {
         return switch (format) {
             case "stylish" -> Stylish.generate(diffList);
             case "plain" -> Plain.generate(diffList);
-            default -> "";
+            case "json" -> Json.generate(diffList);
+            default -> throw new IOException("No such formatter available");
         };
     }
 }
