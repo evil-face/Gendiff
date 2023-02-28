@@ -13,7 +13,7 @@ public class DifferTest {
 
     @Test
     void testCorrectCaseJSON() throws IOException {
-        Path path = Paths.get("src/test/resources/expectedJSON1");
+        Path path = Paths.get("src/test/resources/expectedStylish");
         String expected = Files.readString(path);
 
         assertThat(Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json"))
@@ -22,10 +22,20 @@ public class DifferTest {
 
     @Test
     void testCorrectCaseYAML() throws IOException {
-        Path path = Paths.get("src/test/resources/expectedJSON1");
+        Path path = Paths.get("src/test/resources/expectedStylish");
         String expected = Files.readString(path);
 
         assertThat(Differ.generate("src/test/resources/file1.yml", "src/test/resources/file2.yml"))
+                .isEqualTo(expected);
+    }
+
+    @Test
+    void testCorrectCaseYAMLWithPlain() throws IOException {
+        Path path = Paths.get("src/test/resources/expectedPlain");
+        String expected = Files.readString(path);
+
+        assertThat(Differ.generate("src/test/resources/file1.yml", "src/test/resources/file2.yml",
+                "plain"))
                 .isEqualTo(expected);
     }
 
