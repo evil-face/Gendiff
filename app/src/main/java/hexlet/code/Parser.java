@@ -22,7 +22,7 @@ public class Parser {
 
         String ext = filepath.substring(filepath.lastIndexOf(".") + 1);
         if (ext.equals("-1")) {
-            throw new IOException("Not supported extension");
+            throw new IOException("No file extension");
         }
 
         Map<String, Object> parsedMap = createMapper(ext)
@@ -33,12 +33,14 @@ public class Parser {
         return parsedMap;
     }
 
-    private static ObjectMapper createMapper(String ext) {
-        ObjectMapper mapper = null;
+    private static ObjectMapper createMapper(String ext) throws IOException {
+        ObjectMapper mapper;
         if (ext.equalsIgnoreCase("json")) {
             mapper = new ObjectMapper();
         } else if (ext.equalsIgnoreCase("yml") || ext.equalsIgnoreCase("yaml")) {
             mapper = new YAMLMapper();
+        } else {
+            throw new IOException("Not supported extension");
         }
         return mapper;
     }
