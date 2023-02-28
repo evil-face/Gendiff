@@ -40,6 +40,16 @@ public class DifferTest {
     }
 
     @Test
+    void testCorrectCaseYAMLWithJson() throws IOException {
+        Path path = Paths.get("src/test/resources/expectedJson");
+        String expected = Files.readString(path);
+
+        assertThat(Differ.generate("src/test/resources/file1.yml", "src/test/resources/file2.yml",
+                "json"))
+                .isEqualTo(expected);
+    }
+
+    @Test
     void testNoSuchFilesException() {
         var thrown1 = catchThrowable(() -> Differ.generate("nofile.json", "src/test/resources/file2.json"));
         var thrown2 = catchThrowable(() -> Differ.generate("src/test/resources/file1.json", "nofile.json"));
