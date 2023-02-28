@@ -7,7 +7,7 @@ import picocli.CommandLine;
 public class AppTest {
     @Test
     void testCorrectCase() {
-        String[] args = {"src/resources/file1.json", "src/resources/file2.json"};
+        String[] args = {"src/test/resources/file1.json", "src/test/resources/file2.json"};
         int expected = 0;
         int actual = new CommandLine(new App()).execute(args);
         assertThat(actual).isEqualTo(expected);
