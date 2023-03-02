@@ -10,6 +10,10 @@ import java.util.TreeSet;
 
 
 public class Differ {
+    public static final String STATUS_ADDED = "added";
+    public static final String STATUS_REMOVED = "removed";
+    public static final String STATUS_UNCHANGED = "unchanged";
+    public static final String STATUS_CHANGED = "changed";
 
     public static String generate(String filepath1, String filepath2, String format) throws IOException {
         Map<String, Object> map1 = Parser.parse(filepath1);
@@ -20,7 +24,7 @@ public class Differ {
     }
 
     public static String generate(String filepath1, String filepath2) throws IOException {
-        return generate(filepath1, filepath2, "stylish");
+        return generate(filepath1, filepath2, Formatter.STYLISH);
     }
 
     private static List<Node> buildDiffList(Map<String, Object> map1, Map<String, Object> map2) {
@@ -34,13 +38,13 @@ public class Differ {
             Object oldValue = map1.get(key);
             Object newValue = map2.get(key);
             if (!map2.containsKey(key)) {
-                status = "removed";
+                status = STATUS_REMOVED;
             } else if (!map1.containsKey(key)) {
-                status = "added";
+                status = STATUS_ADDED;
             } else if (Objects.equals(oldValue, newValue)) {
-                status = "unchanged";
+                status = STATUS_UNCHANGED;
             } else {
-                status = "changed";
+                status = STATUS_CHANGED;
             }
             diffList.add(new Node(key, oldValue, newValue, status));
         }
