@@ -1,5 +1,6 @@
 package hexlet.code.formatters;
 
+import hexlet.code.Differ;
 import hexlet.code.Node;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class Plain {
 
         for (Node node : diffList) {
             switch (node.getStatus()) {
-                case "changed" -> {
+                case Differ.STATUS_CHANGED -> {
                     sb.append("Property '");
                     sb.append(node.getKey());
                     sb.append("' was updated. From ");
@@ -18,12 +19,12 @@ public class Plain {
                     sb.append(parseValue(node.getNewValue()));
                     sb.append("\n");
                 }
-                case "removed" -> {
+                case Differ.STATUS_REMOVED -> {
                     sb.append("Property '");
                     sb.append(node.getKey());
                     sb.append("' was removed\n");
                 }
-                case "added" -> {
+                case Differ.STATUS_ADDED -> {
                     sb.append("Property '");
                     sb.append(node.getKey());
                     sb.append("' was added with value: ");
