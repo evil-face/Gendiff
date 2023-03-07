@@ -3,50 +3,49 @@ package hexlet.code.formatters;
 import hexlet.code.Differ;
 import hexlet.code.Node;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class Plain {
+    private static final String DELIMITER = System.lineSeparator();
+    public static final String COMPLEX_VALUE = "[complex value]";
+
     public static String generate(List<Node> diffList) {
-        StringBuilder sb = new StringBuilder();
+        StringJoiner sj = new StringJoiner(DELIMITER);
+        String key;
+        String oldValue;
+        String newValue;
 
         for (Node node : diffList) {
+            key = node.getKey();
             switch (node.getStatus()) {
                 case Differ.STATUS_CHANGED -> {
-                    sb.append("Property '");
-                    sb.append(node.getKey());
-                    sb.append("' was updated. From ");
-                    sb.append(parseValue(node.getOldValue()));
-                    sb.append(" to ");
-                    sb.append(parseValue(node.getNewValue()));
-                    sb.append("\n");
+                    oldValue = formatValue(node.getOldValue());
+                    newValue = formatValue(node.getNewValue());
+                    sj.add("Property '%s' was updated. From %s to %s".formatted(key, oldValue, newValue));
                 }
                 case Differ.STATUS_REMOVED -> {
-                    sb.append("Property '");
-                    sb.append(node.getKey());
-                    sb.append("' was removed\n");
+                    sj.add("Property '%s' was removed".formatted(key));
                 }
                 case Differ.STATUS_ADDED -> {
-                    sb.append("Property '");
-                    sb.append(node.getKey());
-                    sb.append("' was added with value: ");
-                    sb.append(parseValue(node.getNewValue()));
-                    sb.append("\n");
+                    newValue = formatValue(node.getNewValue());
+                    sj.add("Property '%s' was added with value: %s".formatted(key, newValue));
                 }
-                default -> sb.append("");
+                case Differ.STATUS_UNCHANGED -> { }
+                default -> throw new RuntimeException("Error: no such format available");
             }
         }
-        sb.deleteCharAt(sb.length() - 1);
-        return sb.toString();
+        return sj.toString();
     }
 
-    private static String parseValue(Object value) {
+    private static String formatValue(Object value) {
         String parsedValue;
         if (value == null) {
             parsedValue = "null";
         } else if (value instanceof String) {
-            parsedValue = "'" + value + "'";
+            parsedValue = "'%s'".formatted(value);
         } else {
             parsedValue = value.toString().startsWith("{") || value.toString().startsWith("[")
-                    ? "[complex value]" : value.toString();
+                    ? COMPLEX_VALUE : value.toString();
         }
         return parsedValue;
     }
