@@ -18,7 +18,7 @@ public class Formatter {
             case STYLISH -> Stylish.generate(diffList);
             case PLAIN -> Plain.generate(diffList);
             case JSON -> Json.generate(diffList);
-            default -> throw new IOException("No such formatter available");
+            default -> throw new RuntimeException("No such formatter available");
         };
     }
 }
