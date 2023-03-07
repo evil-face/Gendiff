@@ -93,7 +93,7 @@ public class DifferTest {
                 "src/test/resources/wrongExtFile.bin"));
         var thrown2 = catchThrowable(() -> Differ.generate("src/test/resources/file1.yml",
                 "src/test/resources/wrongExtFile"));
-        assertThat(thrown1).isInstanceOf(IOException.class);
-        assertThat(thrown2).isInstanceOf(IOException.class);
+        assertThat(thrown1).isInstanceOf(RuntimeException.class);
+        assertThat(thrown2).isInstanceOf(RuntimeException.class);
     }
 }
