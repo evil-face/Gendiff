@@ -5,52 +5,36 @@ import hexlet.code.Differ;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class Stylish {
+    private static final String DELIMITER = System.lineSeparator();
     public static String generate(List<Node> diffList) throws IOException {
-        StringBuilder sb = new StringBuilder();
+        if (diffList.isEmpty()) {
+            return "{\n}";
+        }
 
-        sb.append("{\n");
+        StringJoiner sj = new StringJoiner(DELIMITER, "{\n", "\n}");
+
         for (Node node : diffList) {
             switch (node.getStatus()) {
                 case Differ.STATUS_UNCHANGED -> {
-                    sb.append("    ");
-                    sb.append(node.getKey());
-                    sb.append(": ");
-                    sb.append(node.getOldValue());
-                    sb.append("\n");
+                    sj.add("    %s: %s".formatted(node.getKey(), node.getOldValue()));
                 }
                 case Differ.STATUS_REMOVED -> {
-                    sb.append("  - ");
-                    sb.append(node.getKey());
-                    sb.append(": ");
-                    sb.append(node.getOldValue());
-                    sb.append("\n");
+                    sj.add("  - %s: %s".formatted(node.getKey(), node.getOldValue()));
                 }
                 case Differ.STATUS_ADDED -> {
-                    sb.append("  + ");
-                    sb.append(node.getKey());
-                    sb.append(": ");
-                    sb.append(node.getNewValue());
-                    sb.append("\n");
+                    sj.add("  + %s: %s".formatted(node.getKey(), node.getNewValue()));
                 }
                 case Differ.STATUS_CHANGED -> {
-                    sb.append("  - ");
-                    sb.append(node.getKey());
-                    sb.append(": ");
-                    sb.append(node.getOldValue());
-                    sb.append("\n");
-                    sb.append("  + ");
-                    sb.append(node.getKey());
-                    sb.append(": ");
-                    sb.append(node.getNewValue());
-                    sb.append("\n");
+                    sj.add("  - %s: %s".formatted(node.getKey(), node.getOldValue()));
+                    sj.add("  + %s: %s".formatted(node.getKey(), node.getNewValue()));
                 }
                 default -> throw new IOException();
             }
         }
-        sb.append("}");
 
-        return sb.toString();
+        return sj.toString();
     }
 }
