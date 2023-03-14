@@ -15,9 +15,9 @@ public class Formatter {
 
     public static String format(List<Node> diffList, String format) throws IOException {
         return switch (format) {
-            case STYLISH -> Stylish.generate(diffList);
-            case PLAIN -> Plain.generate(diffList);
-            case JSON -> Json.generate(diffList);
+            case STYLISH -> Stylish.format(diffList);
+            case PLAIN -> Plain.format(diffList);
+            case JSON -> Json.format(diffList);
             default -> throw new RuntimeException("No such formatter available");
         };
     }
