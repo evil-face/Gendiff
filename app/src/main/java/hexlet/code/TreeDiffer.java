@@ -13,7 +13,7 @@ public class TreeDiffer {
     public static final String STATUS_UNCHANGED = "unchanged";
     public static final String STATUS_CHANGED = "changed";
 
-    static List<Node> buildDiffList(Map<String, Object> map1, Map<String, Object> map2) {
+    static List<Node> findDiffMap(Map<String, Object> map1, Map<String, Object> map2) {
         Set<String> allKeysSet = new TreeSet<>();
         allKeysSet.addAll(map1.keySet());
         allKeysSet.addAll(map2.keySet());
