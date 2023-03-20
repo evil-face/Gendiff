@@ -12,9 +12,9 @@ import java.util.Map;
 public class Differ {
 
     public static String generate(String filepath1, String filepath2, String format) throws IOException {
-        Map<String, Object> map1 = Parser.parse(readData(filepath1), readExt(filepath1));
-        Map<String, Object> map2 = Parser.parse(readData(filepath2), readExt(filepath2));
-        List<Node> diffList = TreeDiffer.buildDiffList(map1, map2);
+        Map<String, Object> map1 = Parser.parse(readData(filepath1), getExtension(filepath1));
+        Map<String, Object> map2 = Parser.parse(readData(filepath2), getExtension(filepath2));
+        List<Node> diffList = TreeDiffer.findDiffMap(map1, map2);
 
         return Formatter.format(diffList, format);
     }
@@ -33,7 +33,7 @@ public class Differ {
         return Files.readString(path);
     }
 
-    private static String readExt(String filepath) throws IOException {
+    private static String getExtension(String filepath) throws IOException {
         String ext = filepath.substring(filepath.lastIndexOf(".") + 1);
         if (ext.equals("-1")) {
             throw new IOException("No file extension");
