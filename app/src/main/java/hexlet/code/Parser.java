@@ -23,8 +23,6 @@ public class Parser {
             }
             default -> throw new RuntimeException("Not supported extension");
         }
-
-        // return parsedMap == null ? new HashMap<>() : parsedMap;
     }
 
     private static Map<String, Object> parseYaml(String content) throws IOException {
